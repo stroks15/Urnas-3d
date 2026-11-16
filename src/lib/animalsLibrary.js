@@ -1,0 +1,25 @@
+const a=(id,label,group,path)=>({id,label,group,viewBox:'0 0 100 100',paths:[path]});
+export const animalsLibrary=[
+a('dog','Perro genérico','Perros','M20 78Q10 55 34 42L30 20Q34 10 45 34Q57 29 68 40L80 19Q91 13 86 43Q96 70 73 81Z'),
+a('chihuahua','Chihuahua','Perros','M20 78Q12 58 32 44L18 13Q20 4 34 27L46 40Q58 32 68 42L82 13Q94 8 87 37L82 53Q94 73 73 82Z'),
+a('bulldog','Bulldog / Pug','Perros','M15 77Q10 53 32 43L20 27Q19 12 36 34L48 39Q62 33 72 43L82 28Q96 18 88 45Q94 72 72 82Z'),
+a('retriever','Golden / Labrador','Perros','M17 80Q10 59 30 47L29 30Q31 19 42 39Q60 34 72 46L84 34Q94 33 87 53Q95 75 70 83Z'),
+a('shepherd','Pastor de orejas erguidas','Perros','M18 80Q10 57 31 46L22 8Q27 0 42 37Q59 32 69 42L82 6Q94 1 87 39L83 53Q94 74 72 82Z'),
+a('dachshund','Salchicha','Perros','M8 64Q17 47 41 51L65 49Q76 40 82 48L92 40L89 57L78 65L77 83L67 83L65 66L35 67L31 83L20 83L20 66Z'),
+a('cat-sit','Gato sentado','Gatos','M20 80Q13 59 31 48L24 13L44 36Q54 32 63 38L81 13L77 51Q92 69 72 81Z'),
+a('cat-stretch','Gato estirándose','Gatos','M8 70Q27 53 45 61Q65 64 76 40L88 27L94 35L82 59Q68 80 43 74L19 83Z'),
+a('cat-face','Cara de gato','Gatos','M14 78L17 18L42 38Q52 33 62 38L84 17L87 78Q50 98 14 78Z'),
+a('rabbit','Conejo','Pequeños mamíferos','M22 80Q12 62 30 47L21 5Q28 0 42 42Q52 37 61 43L66 6Q78 0 78 14L74 50Q91 67 72 81Z'),
+a('hamster','Hámster / Cobayo','Pequeños mamíferos','M14 68Q12 43 35 40L30 24Q39 17 48 39Q68 32 81 49Q92 70 72 81Q40 91 14 68Z'),
+a('ferret','Hurón','Pequeños mamíferos','M10 65Q19 45 43 50Q65 48 78 36L91 41L82 58Q66 76 42 70L19 82Z'),
+a('hedgehog','Erizo','Pequeños mamíferos','M12 75Q15 39 49 28Q79 22 90 60L80 82L24 82Z'),
+a('chinchilla','Chinchilla','Pequeños mamíferos','M17 76Q11 54 31 43L24 19Q31 9 42 36Q58 31 71 43L80 19Q92 13 87 42L83 55Q94 73 72 82Z'),
+a('parakeet','Periquito / Cacatúa','Aves','M50 8Q80 23 70 58L52 86L41 63Q15 47 31 23Q39 13 50 8Z'),
+a('parrot','Loro','Aves','M48 8Q79 22 70 57L54 83L42 63Q17 49 31 24Q39 13 48 8Z'),
+a('dove','Paloma en vuelo','Aves','M5 53Q29 16 49 39Q63 18 95 16Q78 46 58 55Q78 61 89 84Q57 77 43 62Q25 79 8 83Q20 65 5 53Z'),
+a('canary','Canario','Aves','M50 14Q78 21 81 52Q78 81 50 85Q22 81 19 53Q22 24 50 14Z'),
+a('turtle','Tortuga','Exóticos','M22 59Q18 31 50 25Q82 31 78 59L91 68L83 78L69 69L31 69L17 78L9 68Z'),
+a('fish','Pez Betta','Exóticos','M12 50Q38 17 67 40L91 20L85 50L94 80L67 60Q38 83 12 50Z'),
+a('gecko','Gecko','Exóticos','M50 10Q60 22 52 37L72 27L83 35L62 48L73 70L61 78L50 58L39 78L27 70L38 48L17 35L28 27L48 37Q40 22 50 10Z'),
+a('horse','Caballo','Exóticos','M24 84L19 49Q25 25 51 24L68 10L78 15L71 38Q86 55 73 72L68 86L57 86L58 65L43 64L40 86Z')
+];export const animalGroups=['Todos','Perros','Gatos','Pequeños mamíferos','Aves','Exóticos'];

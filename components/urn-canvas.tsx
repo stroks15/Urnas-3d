@@ -1,7 +1,7 @@
 'use client';
 import {Canvas} from "@react-three/fiber";
 import {ContactShadows,Environment,OrbitControls,Text,RoundedBox} from "@react-three/drei";
-import {Suspense,useMemo} from "react";
+import {Suspense,useMemo,createElement} from "react";
 import * as THREE from "three";
 type Props={base:number;animal:number;animalOn?:boolean;finish:number;final:boolean;tilt:number;turn:number;roll:number;paw:boolean;pawOn?:boolean;pawType?:number;engraveOn?:boolean;name:string;dates:string};
 const TOP=[.38,.78,.72,.68,.66,.82,.82,.92,.48,.8,.68,.78,.55,.72,.72,.7,.82,.55,.7,.62];
@@ -23,7 +23,7 @@ function Urn({base,finish,final}:{base:number;finish:number;final:boolean}){
  const metal=final?{color:finish===2?"#8d8272":"#c5c4c1",metalness:finish===0?1:.85,roughness:[.06,.3,.45][finish]}:{color:"#d5d1c9",metalness:0,roughness:.82};
  const ceramic=final?{color:"#f4f0e7",metalness:.12,roughness:.32}:{color:"#d8d4cc",metalness:0,roughness:.84};
  const blue=final?"#315f78":"#aebec5";
- function rounded(pos:[number,number,number],size:[number,number,number],radius=.08,material=metal){ return <RoundedBox position={pos} args={size} radius={radius} smoothness={4}><meshStandardMaterial {...material}/></RoundedBox>; }
+ const rounded=(pos:[number,number,number],size:[number,number,number],radius:number=.08,material:any=metal)=>createElement(RoundedBox,{position:pos,args:size,radius,smoothness:4},createElement("meshStandardMaterial",material));
  return <group>
  {base===0?<group>
  <mesh geometry={moon} position={[0,.19,-.22]} rotation={[Math.PI/2,0,0]}><meshStandardMaterial {...metal}/></mesh>
@@ -53,7 +53,7 @@ function Animal({type,final,base,top}:{type:number;final:boolean;base:number;top
  const m={color:final?"#b1afaa":"#d8d4cc",metalness:final?.85:0,roughness:final?.25:.9};
  const y=top+.13;
  const scale=base===0?.72:base===8?.58:base===11?.65:base===15?.75:1;
- function mesh(pos:[number,number,number],size:[number,number,number],sphere=false){ return <mesh position={pos} scale={size}>{sphere?<sphereGeometry args={[1,32,24]}/>:<capsuleGeometry args={[.16,.35,8,16]}/>}<meshStandardMaterial {...m}/></mesh>; }
+ const mesh=(pos:[number,number,number],size:[number,number,number],sphere=false)=>createElement("mesh",{position:pos,scale:size},createElement(sphere?"sphereGeometry":"capsuleGeometry",{args:sphere?[1,32,24]:[.16,.35,8,16]}),createElement("meshStandardMaterial",m));
  return <group position={[0,y,0]} scale={[scale,scale,scale]}>
  {type===0?<group>{mesh([0,.22,0],[.34,.55,.28])}{mesh([0,.68,.03],[.3,.3,.28],true)}{[-1,1].map(s=><group key={s}>{mesh([s*.19,.85,.02],[.11,.2,.1],true)}{mesh([s*.13,-.02,.12],[.09,.28,.1])}</group>)}<mesh position={[.32,.18,-.12]} rotation={[0,0,-.9]}><torusGeometry args={[.18,.065,12,24,Math.PI*1.4]}/><meshStandardMaterial {...m}/></mesh></group>
  :type===1?<group>{mesh([0,.2,0],[.3,.5,.26])}{mesh([0,.65,.04],[.28,.27,.25],true)}{[-1,1].map(s=><mesh key={s} position={[s*.16,.88,.04]} rotation={[0,0,s*-.25]}><coneGeometry args={[.09,.24,24]}/><meshStandardMaterial {...m}/></mesh>)}</group>

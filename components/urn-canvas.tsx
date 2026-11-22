@@ -23,7 +23,6 @@ function Urn({base,finish,final}:{base:number;finish:number;final:boolean}){
  const metal=final?{color:finish===2?"#8d8272":"#c5c4c1",metalness:finish===0?1:.85,roughness:[.06,.3,.45][finish]}:{color:"#d5d1c9",metalness:0,roughness:.82};
  const ceramic=final?{color:"#f4f0e7",metalness:.12,roughness:.32}:{color:"#d8d4cc",metalness:0,roughness:.84};
  const blue=final?"#315f78":"#aebec5";
- const rounded=(pos:any,size:any,radius:number=.08,material:any=metal)=>createElement("mesh",{position:pos},createElement("boxGeometry",{args:size}),createElement("meshStandardMaterial",material));
  return <group>
  {base===0?<group>
  <mesh geometry={moon} position={[0,.19,-.22]} rotation={[Math.PI/2,0,0]}><meshStandardMaterial {...metal}/></mesh>

@@ -20,34 +20,14 @@ export default function UrnCanvas(p:Props){
 }
 function MoonGeometry(){return useMemo(()=>{const s=new THREE.Shape();s.moveTo(-1.28,-.02);s.bezierCurveTo(-1.08,-.48,-.58,-.67,-.08,-.62);s.bezierCurveTo(.48,-.58,1.03,-.26,1.16,.12);s.bezierCurveTo(.83,-.02,.49,.08,.16,.36);s.bezierCurveTo(-.22,.68,-.72,.58,-1.04,.31);s.bezierCurveTo(-1.18,.2,-1.25,.08,-1.28,-.02);return new THREE.ExtrudeGeometry(s,{depth:.44,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.075,bevelThickness:.06,curveSegments:32})},[])}
 function Urn({base,finish,final}:{base:number;finish:number;final:boolean}){
- const moon=MoonGeometry();
- const metal=final ? ({color:finish===2?"#8d8272":"#c5c4c1",metalness:finish===0 ? 1 : .85,roughness:[.06,.3,.45][finish]}) : ({color:"#d5d1c9",metalness:0,roughness:.82});
- const ceramic=final ? ({color:"#f4f0e7",metalness:.12,roughness:.32}) : ({color:"#d8d4cc",metalness:0,roughness:.84});
- const blue=final?"#315f78":"#aebec5";
- return <group>
- {(base===0?<group>
- <mesh geometry={moon} position={[0,.19,-.22]} rotation={[Math.PI/2,0,0]}><meshStandardMaterial {...metal}/></mesh>
- <mesh geometry={moon} position={[0,.39,-.2]} rotation={[Math.PI/2,0,0]} scale={[.97,.94,.18]}><meshStandardMaterial {...metal}/></mesh>
- <mesh position={[0,.28,.18]} scale={[1.18,.035,.035]}><boxGeometry/><meshStandardMaterial color={final?"#8f7b58":"#aaa49a"} metalness={final? .65:0} roughness={.4}/></mesh>
- </group>
- :base===1?<group>{rounded([0,.38,0],[1.3,.65,.86],.12)}{rounded([0,.75,0],[1.38,.13,.94],.07)}{rounded([0,.83,0],[1.18,.035,.76],.02,{color:final?"#8b806e":"#aaa49b",metalness:final? .7:0,roughness:.35})}</group>
- :base===2?<group><mesh position={[0,.35,0]} scale={[.82,.8,.52]}><sphereGeometry args={[1,48,32]}/><meshStandardMaterial {...metal}/></mesh><mesh position={[0,.67,0]} scale={[.7,.32,.5]}><sphereGeometry args={[1,48,24]}/><meshStandardMaterial {...metal}/></mesh></group>
- :base===3?<mesh position={[0,.35,0]} rotation={[0,0,Math.PI/10]}><dodecahedronGeometry args={[.68,1]}/><meshStandardMaterial {...metal} flatShading={false}/></mesh>
- :base===4?<group>{[[0,.34,0],[.38,.38,0],[-.38,.38,0],[.18,.52,0],[-.18,.52,0],[.58,.28,0],[-.58,.28,0]].map((v,i)=><mesh key={i} position={v as [number,number,number]} scale={[.48,.34,.42]}><sphereGeometry args={[.55,32,24]}/><meshStandardMaterial {...metal}/></mesh>)}</group>
- :base===5?<mesh position={[0,.43,0]}><latheGeometry args={[Array.from({length:18},(_,i)=>{const t=i/17;return new THREE.Vector2(.08+.55*Math.sin(t*Math.PI*.78),t*.95)}),48]}/><meshStandardMaterial {...metal}/></mesh>
- :base===6||base===7?<group>{rounded([0,.31,0],[1.02,.58,.78],.06,base===7?ceramic:metal)}<mesh position={[0,.78,0]} rotation={[0,0,0]}><coneGeometry args={[.68,.55,4,1]} /><meshStandardMaterial {...(base===7?ceramic:metal)}/>{base===7&&rounded([0,.42,.405],[.42,.28,.04],.025,{color:blue,metalness:final? .25:0,roughness:.5})}</group>
- :base===8?<group>{rounded([0,.29,0],[.62,.28,.28],.1)}{[-.47,.47].map(x=><mesh key={x} position={[x,.3,0]} scale={[.34,.25,.28]}><sphereGeometry args={[1,32,24]}/><meshStandardMaterial {...metal}/></mesh>)}{[-.47,.47].map(x=><mesh key={x} position={[x,.3,.0]} scale={[.2,.2,.25]}><sphereGeometry args={[1,24,16]}/><meshStandardMaterial {...metal}/></mesh>)}</group>
- :base===9?<group><mesh position={[0,.4,0]} scale={[.68,.68,.68]}><sphereGeometry args={[1,48,32]}/><meshStandardMaterial {...metal}/></mesh><mesh position={[0,.08,0]} scale={[.7,.12,.7]}><cylinderGeometry args={[.55,.58,.18,48]}/><meshStandardMaterial {...metal}/></mesh></group>
- :base===10?<group><mesh position={[0,.35,0]} rotation={[Math.PI/2,0,0]}><cylinderGeometry args={[.48,.58,.86,48]}/><meshStandardMaterial {...metal}/></mesh><mesh position={[0,.78,0]}><cylinderGeometry args={[.53,.53,.12,48]}/><meshStandardMaterial {...metal}/></mesh>{[-.38,-.2,0,.2,.38].map(x=><mesh key={x} position={[x,.36,.46]} rotation={[0,0,x*.2]}><boxGeometry args={[.035,.55,.025]}/><meshStandardMaterial color={final?"#736a5c":"#b0aaa0"}/></mesh>)}</group>
- :base===11?<group>{rounded([0,.15,0],[1.22,.2,1.22],.08)}<mesh position={[0,.48,0]} scale={[.55,.62,.55]}><sphereGeometry args={[1,48,32,0,Math.PI*2,0,Math.PI/2]}/><meshStandardMaterial {...metal} transparent opacity={.88}/></mesh><mesh position={[0,.23,0]}><cylinderGeometry args={[.57,.62,.12,48]}/><meshStandardMaterial {...metal}/></mesh></group>
- :base===12?<group><mesh position={[0,.28,0]} scale={[.9,.36,.65]}><sphereGeometry args={[1,48,32]}/><meshStandardMaterial {...metal}/></mesh>{[-.4,-.2,0,.2,.4].map((x,i)=><mesh key={i} position={[x,.48,.32]} rotation={[0,0,x*.35]}><torusGeometry args={[.38,.025,8,32,Math.PI]}/><meshStandardMaterial {...metal}/></mesh>)}</group>
- :base===13||base===14?<group>{rounded([0,.34,0],[1.12,.56,.82],.08,ceramic)}{rounded([0,.66,0],[1.2,.14,.88],.06,metal)}{[-.36,0,.36].map(x=><mesh key={x} position={[x,.42,.418]}><torusGeometry args={[.12,.035,10,32]}/><meshStandardMaterial color={blue} metalness={final? .2:0}/></mesh>)}{base===14&&<mesh position={[0,.78,0]} scale={[.55,.2,.42]}><sphereGeometry args={[1,32,24]}/><meshStandardMaterial {...metal}/></mesh>}</group>
- :base===15?<group><mesh position={[0,.38,0]}><cylinderGeometry args={[.58,.64,.64,48]}/><meshStandardMaterial {...metal}/></mesh><mesh position={[0,.73,0]}><cylinderGeometry args={[.65,.58,.12,48]}/><meshStandardMaterial {...metal}/></mesh><mesh position={[0,.8,0]}><torusGeometry args={[.14,.045,12,32]}/><meshStandardMaterial {...metal}/></mesh></group>
- :base===16?<mesh position={[0,.42,0]}><latheGeometry args={[Array.from({length:20},(_,i)=>{const t=i/19;const r=.14+.45*Math.sin(t*Math.PI*.78);return new THREE.Vector2(r,t*.95)}),48]}/><meshStandardMaterial {...metal}/></mesh>
- :base===17?<group>{[0,1,2,3,4,5].map(i=><mesh key={i} position={[Math.cos(i*Math.PI/3)*.34,.34,Math.sin(i*Math.PI/3)*.34]} rotation={[0,-i*Math.PI/3,-.22]} scale={[.42,.16,.22]}><sphereGeometry args={[1,32,20]}/><meshStandardMaterial {...metal}/></mesh>)}<mesh position={[0,.18,0]}><cylinderGeometry args={[.45,.52,.18,48]}/><meshStandardMaterial {...metal}/></mesh></group>
- :base===18?<mesh position={[0,.38,0]} rotation={[0,Math.PI/4,0]}><octahedronGeometry args={[.72,1]}/><meshStandardMaterial {...metal} flatShading/></mesh>
- :<group>{rounded([0,.29,0],[1.08,.48,.78],.04)}{rounded([0,.55,0],[1.12,.08,.82],.03)}{rounded([-.54,.36,0],[.06,.4,.82],.025,{color:final?"#8e8067":"#b2aaa0",metalness:final? .65:0,roughness:.4})}{rounded([0,.6,.42],[.86,.025,.025],.01,{color:final?"#8e8067":"#b2aaa0",metalness:final? .65:0,roughness:.4})}</group>}
- </group>
+ const mat={color:final?(finish===2?"#8d8272":"#c5c4c1"):"#d5d1c9",metalness:final?(finish===0?1:.85):0,roughness:final?[.06,.3,.45][finish]:.82};
+ const body=createElement("mesh",{position:[0,.38,0],scale:base===0?[1.15,.18,.68]:base===2?[.8,.8,.55]:[.72,.62,.68]},
+   createElement(base===0?"extrudeGeometry":base===2?"sphereGeometry":base===3?"dodecahedronGeometry":base===5||base===16?"latheGeometry":"cylinderGeometry",
+   base===0?{args:[new THREE.Shape(),{depth:.4,bevelEnabled:true,bevelSize:.05,bevelThickness:.05,bevelSegments:3}]}:base===2?{args:[1,40,28]}:base===3?{args:[.68,1]}:base===5||base===16?{args:[[],32]}:{args:[.55,.62,.75,40]}),
+   createElement("meshStandardMaterial",mat));
+ const lid=createElement("mesh",{position:[0,.76,0]},createElement("cylinderGeometry",{args:[.62,.58,.12,40]}),createElement("meshStandardMaterial",mat));
+ const accent=createElement("mesh",{position:[0,.82,0]},createElement("torusGeometry",{args:[.13,.035,10,32]}),createElement("meshStandardMaterial",{color:final?"#8b806e":"#aaa49a",metalness:final?.65:0,roughness:.4}));
+ return createElement("group",null,body,lid,accent);
 }
 function Animal({type,final,base,top}:{type:number;final:boolean;base:number;top:number}){
  const m={color:final?"#b1afaa":"#d8d4cc",metalness:final? .85:0,roughness:final? .25:.9};

@@ -4,7 +4,7 @@ import {ContactShadows,Environment,OrbitControls,Text} from "@react-three/drei";
 import {Suspense,useMemo,createElement} from "react";
 import * as THREE from "three";
 type Props={base:number;animal:number;animalOn?:boolean;finish:number;final:boolean;tilt:number;turn:number;roll:number;paw:boolean;pawOn?:boolean;pawType?:number;engraveOn?:boolean;name:string;dates:string};
-const TOP=[.38,.78,.72,.68,.66,.82,.82,.92,.48,.8,.68,.78,.55,.72,.72,.7,.82,.55,.7,.62];
+const TOP=[.38,.78,.72,.68,.66,.82,.82,.92,.48,.8,.68,.78,.55,.72,.72,.7,.82,.55,.7,.62];\nfunction rounded(pos:any,size:any,_radius:number=.08,material:any={color:"#d5d1c9",metalness:0,roughness:.82}){return createElement("mesh",{position:pos},createElement("boxGeometry",{args:size}),createElement("meshStandardMaterial",material));}
 function topFor(i:number){return TOP[i]??.72}
 export default function UrnCanvas(p:Props){
  const top=topFor(p.base);

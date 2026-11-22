@@ -25,7 +25,7 @@ function Urn({base,finish,final}:{base:number;finish:number;final:boolean}){
  const ceramic=final ? ({color:"#f4f0e7",metalness:.12,roughness:.32}) : ({color:"#d8d4cc",metalness:0,roughness:.84});
  const blue=final?"#315f78":"#aebec5";
  return <group>
- {base===0?<group>
+ {(base===0?<group>
  <mesh geometry={moon} position={[0,.19,-.22]} rotation={[Math.PI/2,0,0]}><meshStandardMaterial {...metal}/></mesh>
  <mesh geometry={moon} position={[0,.39,-.2]} rotation={[Math.PI/2,0,0]} scale={[.97,.94,.18]}><meshStandardMaterial {...metal}/></mesh>
  <mesh position={[0,.28,.18]} scale={[1.18,.035,.035]}><boxGeometry/><meshStandardMaterial color={final?"#8f7b58":"#aaa49a"} metalness={final? .65:0} roughness={.4}/></mesh>

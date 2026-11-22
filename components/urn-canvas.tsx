@@ -20,14 +20,82 @@ export default function UrnCanvas(p:Props){
 }
 function MoonGeometry(){return useMemo(()=>{const s=new THREE.Shape();s.moveTo(-1.28,-.02);s.bezierCurveTo(-1.08,-.48,-.58,-.67,-.08,-.62);s.bezierCurveTo(.48,-.58,1.03,-.26,1.16,.12);s.bezierCurveTo(.83,-.02,.49,.08,.16,.36);s.bezierCurveTo(-.22,.68,-.72,.58,-1.04,.31);s.bezierCurveTo(-1.18,.2,-1.25,.08,-1.28,-.02);return new THREE.ExtrudeGeometry(s,{depth:.44,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.075,bevelThickness:.06,curveSegments:32})},[])}
 function Urn({base,finish,final}:{base:number;finish:number;final:boolean}){
- const mat={color:final?(finish===2?"#8d8272":"#c5c4c1"):"#d5d1c9",metalness:final?(finish===0?1:.85):0,roughness:final?[.06,.3,.45][finish]:.82};
- const body=createElement("mesh",{position:[0,.38,0],scale:base===0?[1.15,.18,.68]:base===2?[.8,.8,.55]:[.72,.62,.68]},
-   createElement(base===0?"extrudeGeometry":base===2?"sphereGeometry":base===3?"dodecahedronGeometry":base===5||base===16?"latheGeometry":"cylinderGeometry",
-   base===0?{args:[new THREE.Shape(),{depth:.4,bevelEnabled:true,bevelSize:.05,bevelThickness:.05,bevelSegments:3}]}:base===2?{args:[1,40,28]}:base===3?{args:[.68,1]}:base===5||base===16?{args:[[],32]}:{args:[.55,.62,.75,40]}),
-   createElement("meshStandardMaterial",mat));
- const lid=createElement("mesh",{position:[0,.76,0]},createElement("cylinderGeometry",{args:[.62,.58,.12,40]}),createElement("meshStandardMaterial",mat));
- const accent=createElement("mesh",{position:[0,.82,0]},createElement("torusGeometry",{args:[.13,.035,10,32]}),createElement("meshStandardMaterial",{color:final?"#8b806e":"#aaa49a",metalness:final?.65:0,roughness:.4}));
- return createElement("group",null,body,lid,accent);
+ const metal=final?{color:finish===2?"#8d8272":"#c5c4c1",metalness:finish===0?.92:.72,roughness:[.12,.28,.42][finish]??.3}:{color:"#d5d1c9",metalness:0,roughness:.72};
+ const ceramic=final?{color:"#eee9df",metalness:.08,roughness:.26}:{color:"#d8d4cc",metalness:0,roughness:.78};
+ const blue=final?"#315f78":"#aebec5";
+ const mesh=(geometry:any,position:any,scale:any,material:any=metal,rotation:any=[0,0,0])=>createElement("mesh",{position,scale,rotation},geometry,createElement("meshStandardMaterial",material));
+ const cylinder=(rTop:number,rBottom:number,h:number,position:any,material:any=metal,segments=64)=>mesh(createElement("cylinderGeometry",{args:[rTop,rBottom,h,segments]}),position,[1,1,1],material);
+ const box=(position:any,size:any,material:any=metal)=>rounded(position,size,.06,material);
+ const parts:any[]=[];
+ if(base===0){
+  const s=new THREE.Shape();s.moveTo(-1.28,-.02);s.bezierCurveTo(-1.08,-.48,-.58,-.67,-.08,-.62);s.bezierCurveTo(.48,-.58,1.03,-.26,1.16,.12);s.bezierCurveTo(.83,-.02,.49,.08,.16,.36);s.bezierCurveTo(-.22,.68,-.72,.58,-1.04,.31);s.bezierCurveTo(-1.18,.2,-1.25,.08,-1.28,-.02);
+  const g=new THREE.ExtrudeGeometry(s,{depth:.42,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.07,bevelThickness:.05,curveSegments:36});
+  parts.push(mesh(g,[0,.24,-.2],[1,1,1],metal,[Math.PI/2,0,0]));
+  parts.push(box([0,.32,.05],[1.45,.045,.06],{color:final?"#8f7b58":"#aaa49a",metalness:final?.7:0,roughness:.35}));
+ } else if(base===1){
+  parts.push(box([0,.37,0],[1.28,.66,.84],ceramic));
+  parts.push(box([0,.73,0],[1.36,.12,.9],metal));
+  parts.push(box([0,.81,0],[1.18,.035,.74],{color:final?"#8b806e":"#aaa49b",metalness:final?.7:0,roughness:.35}));
+ } else if(base===2){
+  parts.push(mesh(createElement("sphereGeometry",{args:[1,64,48]}),[0,.36,0],[.78,.72,.52],metal));
+  parts.push(mesh(createElement("sphereGeometry",{args:[1,64,40]}),[0,.66,0],[.68,.27,.47],metal));
+  parts.push(cylinder(.52,.56,.1,[0,.12,0]));
+ } else if(base===3){
+  parts.push(mesh(createElement("dodecahedronGeometry",{args:[.68,1]}),[0,.37,0],[1,1,1],metal,[0,0,Math.PI/10]));
+ } else if(base===4){
+  for(let i=0;i<7;i++){const a=i*Math.PI*2/7;parts.push(mesh(createElement("sphereGeometry",{args:[.55,40,32]}),[Math.cos(a)*.27,.36,Math.sin(a)*.27],[.43,.34,.38],metal));}
+  parts.push(cylinder(.46,.5,.16,[0,.17,0]));
+ } else if(base===5||base===16){
+  const profile=Array.from({length:24},(_,i)=>{const t=i/23;return new THREE.Vector2(.12+.5*Math.sin(t*Math.PI*.78),t*.94)});
+  parts.push(mesh(createElement("latheGeometry",{args:[profile,64]}),[0,.08,0],[1,1,1],metal));
+  parts.push(cylinder(.58,.58,.08,[0,.99,0]));
+ } else if(base===6||base===7){
+  parts.push(box([0,.32,0],[1.02,.58,.78],base===7?ceramic:metal));
+  parts.push(mesh(createElement("coneGeometry",{args:[.68,.52,4,1]}),[0,.77,0],[1,1,1],base===7?ceramic:metal,[0,Math.PI/4,0]));
+  parts.push(cylinder(.55,.55,.07,[0,.61,0],metal));
+  if(base===7)parts.push(box([0,.42,.405],[.42,.28,.035],{color:blue,metalness:final?.25:0,roughness:.5}));
+ } else if(base===8){
+  parts.push(box([0,.27,0],[.62,.25,.28],ceramic));
+  for(const x of [-.43,.43])parts.push(mesh(createElement("sphereGeometry",{args:[1,40,32]}),[x,.3,0],[.32,.24,.26],metal));
+ } else if(base===9){
+  parts.push(mesh(createElement("sphereGeometry",{args:[1,64,48]}),[0,.4,0],[.65,.65,.65],metal));
+  parts.push(cylinder(.56,.61,.14,[0,.1,0]));
+ } else if(base===10){
+  parts.push(cylinder(.48,.58,.76,[0,.4,0]));
+  parts.push(cylinder(.55,.53,.12,[0,.81,0]));
+  for(const x of [-.38,-.19,0,.19,.38])parts.push(box([x,.4,.46],[.025,.55,.025],{color:final?"#736a5c":"#b0aaa0",metalness:final?.55:0,roughness:.4}));
+ } else if(base===11){
+  parts.push(box([0,.15,0],[1.18,.18,1.18],ceramic));
+  parts.push(mesh(createElement("sphereGeometry",{args:[1,64,48,0,Math.PI*2,0,Math.PI/2]}),[0,.46,0],[.55,.58,.55],metal));
+  parts.push(cylinder(.57,.62,.1,[0,.23,0]));
+ } else if(base===12){
+  parts.push(mesh(createElement("sphereGeometry",{args:[1,64,48]}),[0,.3,0],[.82,.34,.62],metal));
+  for(const x of [-.4,-.2,0,.2,.4])parts.push(mesh(createElement("torusGeometry",{args:[.34,.022,10,48,Math.PI]}),[x,.48,.32],[1,1,1],metal,[0,0,x*.3]));
+ } else if(base===13||base===14){
+  parts.push(box([0,.34,0],[1.12,.56,.82],ceramic));
+  parts.push(box([0,.66,0],[1.2,.13,.88],metal));
+  for(const x of [-.36,0,.36])parts.push(mesh(createElement("torusGeometry",{args:[.12,.03,12,40]}),[x,.42,.418],[1,1,1],{color:blue,metalness:final?.2:0}));
+  if(base===14)parts.push(mesh(createElement("sphereGeometry",{args:[1,40,32]}),[0,.78,0],[.5,.18,.38],metal));
+ } else if(base===15){
+  parts.push(cylinder(.58,.64,.64,[0,.38,0]));
+  parts.push(cylinder(.65,.58,.12,[0,.74,0]));
+  parts.push(cylinder(.14,.14,.08,[0,.84,0],{color:final?"#8b806e":"#aaa49a",metalness:final?.65:0,roughness:.35}));
+ } else if(base===17){
+  for(let i=0;i<6;i++){const a=i*Math.PI/3;parts.push(mesh(createElement("sphereGeometry",{args:[1,40,28]}),[Math.cos(a)*.32,.34,Math.sin(a)*.32],[.38,.15,.2],metal,[0,-a,-.22]));}
+  parts.push(cylinder(.45,.52,.16,[0,.17,0]));
+ } else if(base===18){
+  parts.push(mesh(createElement("octahedronGeometry",{args:[.72,1]}),[0,.38,0],[1,1,1],metal,[0,Math.PI/4,0]));
+ } else {
+  parts.push(box([0,.29,0],[1.08,.48,.78],ceramic));
+  parts.push(box([0,.55,0],[1.12,.08,.82],metal));
+  parts.push(box([-.54,.36,0],[.05,.4,.82],{color:final?"#8e8067":"#b2aaa0",metalness:final?.65:0,roughness:.4}));
+  parts.push(box([0,.6,.42],[.86,.025,.025],{color:final?"#8e8067":"#b2aaa0",metalness:final?.65:0,roughness:.4}));
+ }
+ // Only add a fitted lid to designs whose top is closed; never place a generic ring/knob on every urn.
+ if(![0,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18].includes(base)){
+   parts.push(cylinder(.48,.52,.09,[0,.63,0]));
+ }
+ return createElement("group",null,...parts);
 }
 function Animal({type,final,base,top}:{type:number;final:boolean;base:number;top:number}){
  const m={color:final?"#b1afaa":"#d8d4cc",metalness:final? .85:0,roughness:final? .25:.9};

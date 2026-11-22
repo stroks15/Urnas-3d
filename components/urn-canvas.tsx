@@ -21,8 +21,8 @@ export default function UrnCanvas(p:Props){
 function MoonGeometry(){return useMemo(()=>{const s=new THREE.Shape();s.moveTo(-1.28,-.02);s.bezierCurveTo(-1.08,-.48,-.58,-.67,-.08,-.62);s.bezierCurveTo(.48,-.58,1.03,-.26,1.16,.12);s.bezierCurveTo(.83,-.02,.49,.08,.16,.36);s.bezierCurveTo(-.22,.68,-.72,.58,-1.04,.31);s.bezierCurveTo(-1.18,.2,-1.25,.08,-1.28,-.02);return new THREE.ExtrudeGeometry(s,{depth:.44,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.075,bevelThickness:.06,curveSegments:32})},[])}
 function Urn({base,finish,final}:{base:number;finish:number;final:boolean}){
  const moon=MoonGeometry();
- const metal=final?{color:finish===2?"#8d8272":"#c5c4c1",metalness:finish===0?1:.85,roughness:[.06,.3,.45][finish]}:{color:"#d5d1c9",metalness:0,roughness:.82};
- const ceramic=final?{color:"#f4f0e7",metalness:.12,roughness:.32}:{color:"#d8d4cc",metalness:0,roughness:.84};
+ const metal=final ? ({color:finish===2?"#8d8272":"#c5c4c1",metalness:finish===0 ? 1 : .85,roughness:[.06,.3,.45][finish]}) : ({color:"#d5d1c9",metalness:0,roughness:.82});
+ const ceramic=final ? ({color:"#f4f0e7",metalness:.12,roughness:.32}) : ({color:"#d8d4cc",metalness:0,roughness:.84});
  const blue=final?"#315f78":"#aebec5";
  return <group>
  {base===0?<group>

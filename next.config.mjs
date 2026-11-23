@@ -1,3 +1,1 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = { reactStrictMode: true };
-export default nextConfig;
+const nextConfig={output:process.env.CAPACITOR_BUILD==="true"?"export":undefined,images:{unoptimized:true},trailingSlash:true,reactStrictMode:true};export default nextConfig;

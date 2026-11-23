@@ -1,0 +1,1 @@
+import type {CapacitorConfig} from "@capacitor/cli";const config:CapacitorConfig={appId:"com.nextli.urnas3d",appName:"NEXTLI Urnas 3D",webDir:"out",server:{androidScheme:"https"},android:{allowMixedContent:false}};export default config;

@@ -1,0 +1,47 @@
+name: Build NEXTLI Android APK
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nextli-android-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - run: npm install
+      - name: Build static web app
+        run: npm run build
+        env:
+          CAPACITOR_BUILD: "true"
+      - name: Create and sync Android project
+        run: |
+          if [ ! -d android ]; then npx cap add android; fi
+          npx cap sync android
+      - name: Build debug APK
+        working-directory: android
+        run: chmod +x gradlew && ./gradlew assembleDebug
+      - name: Prepare APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Urnas3D-Nextli.apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-build-${{ github.run_number }}
+          name: NEXTLI Urnas 3D APK ${{ github.run_number }}
+          generate_release_notes: true
+          files: Urnas3D-Nextli.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

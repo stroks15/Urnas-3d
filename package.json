@@ -1,1 +1,38 @@
-{"name":"nextli-urnas-3d","version":"1.0.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start","lint":"next lint"},"dependencies":{"@react-three/drei":"^9.122.0","@react-three/fiber":"^8.17.10","lucide-react":"^0.468.0","next":"^14.2.21","react":"^18.3.1","react-dom":"^18.3.1","three":"^0.171.0"},"devDependencies":{"@types/node":"^22.10.2","@types/react":"^18.3.12","@types/three":"^0.171.0","autoprefixer":"^10.4.20","postcss":"^8.4.49","tailwindcss":"^3.4.16","typescript":"^5.7.2"}}
+{
+  "name": "urnas-3d-nextli",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/filesystem": "^6.0.3",
+    "@capacitor/share": "^6.0.3",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "@supabase/supabase-js": "^2.49.1",
+    "lucide-react": "^0.468.0",
+    "next": "14.2.32",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.170.0",
+    "three-bvh-csg": "^0.0.16",
+    "three-stdlib": "^2.35.12"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0",
+    "@types/node": "^22.13.4",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/three": "^0.170.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}

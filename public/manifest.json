@@ -1,0 +1,17 @@
+{
+  "name": "NEXTLI Personalizador de Urnas 3D",
+  "short_name": "NEXTLI 3D",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0E14",
+  "theme_color": "#0B0E14",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

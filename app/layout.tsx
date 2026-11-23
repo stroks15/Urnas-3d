@@ -1,4 +1,1 @@
-import type { Metadata } from "next";
-import "./globals.css";
-export const metadata: Metadata = { title: "NEXTLI · Estudio de Urnas 3D", description: "Diseña un homenaje único para tu compañero." };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="es"><body>{children}</body></html>; }
+import type {Metadata,Viewport} from "next";import "./globals.css";export const metadata:Metadata={title:"NEXTLI | Urnas 3D",description:"Personalizador profesional de urnas conmemorativas para mascotas",manifest:"/manifest.json",appleWebApp:{capable:true,statusBarStyle:"black-translucent",title:"NEXTLI 3D"}};export const viewport:Viewport={themeColor:"#0B0E14",width:"device-width",initialScale:1,maximumScale:1,userScalable:false};export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="es"><body>{children}</body></html>}

@@ -6,7 +6,7 @@ Personalizador mobile-first construido con Next.js, React Three Fiber, Three.js 
 `npm install && npm run dev`
 
 ## Supabase
-Configura `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel. Ejecuta `supabase/schema.sql` en el SQL Editor. La tabla aplica RLS y requiere un usuario autenticado antes de guardar diseños. No pongas claves service-role en el navegador.
+Configura `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel. Ejecuta `supabase/schema.sql` en el SQL Editor. La tabla aplica RLS. Activa Authentication → Providers → Anonymous para que el botón de guardado cree una sesión anónima segura y asocie cada diseño a su usuario. No pongas claves service-role en el navegador.
 
 ## Android
 El workflow crea un proyecto Capacitor efímero y adjunta `Urnas3D-Nextli.apk` de tipo debug a una GitHub Release en cada push. Es una APK de pruebas sin firma de distribución; para producción configura keystore y secretos de firma.

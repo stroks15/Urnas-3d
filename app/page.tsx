@@ -1,1 +1,2 @@
+"use client";
 import dynamic from "next/dynamic";const Studio=dynamic(()=>import("@/components/studio"),{ssr:false,loading:()=><main className="loading"><div className="spinner"/>Preparando estudio 3D…</main>});export default function Page(){return <Studio/>}

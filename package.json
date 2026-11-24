@@ -1,6 +1,6 @@
 {
   "name": "urnas-3d-nextli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "packageManager": "npm@10.9.2",
   "scripts": {
@@ -14,13 +14,13 @@
     "@capacitor/core": "6.2.0",
     "@capacitor/filesystem": "6.0.3",
     "@capacitor/share": "6.0.3",
-    "@react-three/drei": "10.7.9",
-    "@react-three/fiber": "9.8.2",
+    "@react-three/drei": "9.122.0",
+    "@react-three/fiber": "8.18.0",
     "@supabase/supabase-js": "2.49.1",
     "lucide-react": "0.468.0",
     "next": "15.5.29",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "three": "0.170.0",
     "three-bvh-csg": "0.0.16",
     "three-stdlib": "2.35.12"
@@ -28,8 +28,8 @@
   "devDependencies": {
     "@capacitor/cli": "6.2.0",
     "@types/node": "22.13.4",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
     "@types/three": "0.170.0",
     "autoprefixer": "10.4.20",
     "postcss": "8.5.3",

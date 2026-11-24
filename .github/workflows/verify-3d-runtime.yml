@@ -1,0 +1,43 @@
+name: Verify NEXTLI 3D runtime
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: nextli-3d-runtime-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Verify React renderer dependency tree
+        run: |
+          npm ls react react-dom next @react-three/fiber @react-three/drei three
+          npm run typecheck
+      - name: Build production app
+        run: npm run build
+      - name: Install Chromium with WebGL support
+        run: npx playwright install --with-deps chromium
+      - name: Test real browser initialization and interaction
+        run: npm run test:studio
+      - name: Upload browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextli-3d-browser-diagnostics
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7

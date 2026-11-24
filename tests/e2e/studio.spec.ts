@@ -4,7 +4,7 @@ test("the 3D studio hydrates, creates WebGL canvas and keeps controls interactiv
   const pageErrors: string[] = [];
   page.on("pageerror", error => pageErrors.push(error.message));
 
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await expect(page.getByText("NEXTLI", { exact: false }).first()).toBeVisible();
 
   const canvas = page.locator(".scene canvas");

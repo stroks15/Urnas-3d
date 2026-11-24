@@ -26,7 +26,11 @@ jobs:
           packages: platform-tools
       - name: Install Android SDK packages
         run: sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-      - run: npm install
+      - name: Install dependencies and verify React renderer
+        run: |
+          npm install --no-audit --no-fund
+          npm ls react react-dom @react-three/fiber @react-three/drei three
+          npm run typecheck
       - name: Build static web app
         run: npm run build
         env:

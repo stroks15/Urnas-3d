@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   actions: write
 concurrency:
   group: nextli-3d-runtime-${{ github.ref }}
@@ -18,8 +18,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
+      - name: Install dependencies and create reproducible lockfile
+        run: |
+          npm install --no-audit --no-fund
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: lock npm dependency tree"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
       - name: Verify React renderer dependency tree
         run: |
           npm ls react react-dom next @react-three/fiber @react-three/drei three

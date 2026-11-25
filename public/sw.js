@@ -1,5 +1,5 @@
-const CACHE_NAME = "nextli-urnas-v3-react18";
-const APP_SHELL = ["/", "/manifest.json", "/icon.svg"];
+const CACHE_NAME = "nextli-urnas-v4-react19";
+const APP_SHELL = ["/", "/manifest.json", "/icon.svg", "/fonts/DejaVuSans.ttf"];
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {

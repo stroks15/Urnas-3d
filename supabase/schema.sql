@@ -8,7 +8,12 @@ create table if not exists public.urn_designs (
   updated_at timestamptz not null default now()
 );
 alter table public.urn_designs enable row level security;
+drop policy if exists "Users can read their urn designs" on public.urn_designs;
 create policy "Users can read their urn designs" on public.urn_designs for select to authenticated using (auth.uid() = owner_id);
+drop policy if exists "Users can create their urn designs" on public.urn_designs;
 create policy "Users can create their urn designs" on public.urn_designs for insert to authenticated with check (auth.uid() = owner_id);
+drop policy if exists "Users can update their urn designs" on public.urn_designs;
 create policy "Users can update their urn designs" on public.urn_designs for update to authenticated using (auth.uid() = owner_id) with check (auth.uid() = owner_id);
+drop policy if exists "Users can delete their urn designs" on public.urn_designs;
 create policy "Users can delete their urn designs" on public.urn_designs for delete to authenticated using (auth.uid() = owner_id);
+grant select, insert, update, delete on public.urn_designs to authenticated;

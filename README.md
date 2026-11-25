@@ -11,5 +11,8 @@ Configura `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` en Vercel
 ## Android
 El workflow crea un proyecto Capacitor efímero y adjunta `Urnas3D-Nextli.apk` de tipo debug a una GitHub Release en cada push. Es una APK de pruebas sin firma de distribución; para producción configura keystore y secretos de firma.
 
+## Versiones del visor 3D
+Next 15 (App Router) ejecuta su propio React 19, aunque se instale otra versión. Por eso `react` y `react-dom` 19 deben ir con `@react-three/fiber` 9 y `@react-three/drei` 10. No vuelvas a fiber 8: falla con `ReactCurrentBatchConfig`.
+
 ## Alcance actual
 El visor contiene 21 bases paramétricas simplificadas (incluye las variantes originales Talavera Pewter, Talavera azul, urna redonda de dos huellas y dos modelos de huesito) (incluida Corazón Talavera Pewter), selector de 25 especies con esculturas procedurales diferenciadas por grupo, seis acabados PBR y aplicación independiente a base o figura, modos animal/huella, 12 variantes de huella, relieve hundido/sobresaliente, selección de zona de grabado (frontal, tapa, trasera y lateral), dedicatoria, giro en pasos de 45° y descarga PNG. La foto se muestra como referencia y todavía no se convierte en malla 3D. Se añadió exportación básica STL y GLB del modelo visible. Los archivos son prototipos geométricos: todavía requieren validación de malla cerrada/manifold, escala dimensional, espesores mínimos, orientación de impresión y separación de tapa antes de fabricar. La reproducción CAD exacta de las urnas originales, grabados CSG y conversión de fotos a esculturas 3D siguen pendientes.

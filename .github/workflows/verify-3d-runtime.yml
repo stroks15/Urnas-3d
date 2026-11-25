@@ -5,29 +5,22 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
-  actions: write
 concurrency:
   group: nextli-3d-runtime-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   runtime:
-    runs-on: ubuntu-latest
+    # Pinned: Playwright 1.56.1 cannot install Chromium on ubuntu26.04 (current ubuntu-latest).
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Install dependencies and create reproducible lockfile
+          node-version: 22
+      - name: Install dependencies
         run: |
-          npm install --no-audit --no-fund
-          git add package-lock.json
-          if ! git diff --cached --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "chore: lock npm dependency tree"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
       - name: Verify React renderer dependency tree
         run: |
           npm ls react react-dom next @react-three/fiber @react-three/drei three
@@ -48,3 +41,12 @@ jobs:
             playwright-report/
           if-no-files-found: ignore
           retention-days: 7
+      - name: Commit the verified lockfile
+        run: |
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: lock verified npm dependency tree"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

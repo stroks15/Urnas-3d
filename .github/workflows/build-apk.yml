@@ -10,13 +10,13 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -28,13 +28,15 @@ jobs:
         run: sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
       - name: Install dependencies and verify React renderer
         run: |
-          npm install --no-audit --no-fund
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
           npm ls react react-dom @react-three/fiber @react-three/drei three
           npm run typecheck
       - name: Build static web app
         run: npm run build
         env:
           CAPACITOR_BUILD: "true"
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       - name: Create and sync Android project
         run: |
           if [ ! -d android ]; then npx cap add android; fi
@@ -44,7 +46,13 @@ jobs:
         run: chmod +x gradlew && ./gradlew assembleDebug
       - name: Prepare APK
         run: cp android/app/build/outputs/apk/debug/app-debug.apk Urnas3D-Nextli.apk
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Urnas3D-Nextli-apk
+          path: Urnas3D-Nextli.apk
       - uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
         with:
           tag_name: apk-build-${{ github.run_number }}
           name: NEXTLI Urnas 3D APK ${{ github.run_number }}

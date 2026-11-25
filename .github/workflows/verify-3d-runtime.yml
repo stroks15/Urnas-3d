@@ -41,12 +41,12 @@ jobs:
             playwright-report/
           if-no-files-found: ignore
           retention-days: 7
-      - name: Commit the verified lockfile
+      - name: Publish screenshots to a scratch branch
         run: |
-          git add package-lock.json
-          if ! git diff --cached --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "chore: lock verified npm dependency tree"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan tmp/shots-out
+          git rm -rqf --cached .
+          git add -f shots
+          git commit -qm shots
+          git push -f origin tmp/shots-out
